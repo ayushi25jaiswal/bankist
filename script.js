@@ -61,16 +61,64 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+    <div class="movements__row">
+    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+    <div class="movements__value">${mov}</div>
+  </div>`;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance}EUR`;
+};
+displayMovements(account1.movements);
+calcDisplayBalance(account1.movements);
+
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUsernames(accounts);
+console.log(accounts);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-/////////////////////////////////////////////////
+// /////////////////////////////////////////////////
+
+// const withdrawal = movements.filter(function (mov) {
+//   return mov < 0;
+// });
+
+// console.log(withdrawal);
+
+const dogAge = [2, 4, 5, 12, 3, 2, 5];
+const humanAge = dogAge.map(age => (age < 4 ? 2 * age : 16 + age * 4));
+console.log(humanAge);
+
+const hage = humanAge.filter(age => age > 16);
+console.log(hage);
+
+const avg = hage.reduce((acc, age) => acc + age, 0);
+console.log(avg);
